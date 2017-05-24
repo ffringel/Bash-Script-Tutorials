@@ -1,5 +1,6 @@
 #!/usr/bin/env escript
 
+-export([main/1]).
 -define(NODE_NAME, ping_node).
 
 main([Node, Cookie]) ->
