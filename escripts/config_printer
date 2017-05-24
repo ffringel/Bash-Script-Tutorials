@@ -1,4 +1,4 @@
-#!/usr/bin/env/ escript
+#!/usr/bin/env escript
 
 -define(NODE_NAME, config_printer).
 
