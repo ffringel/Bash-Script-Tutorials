@@ -1,0 +1,12 @@
+#!/usr/bin/env/ escript
+
+-define(NODE_NAME, config_printer).
+
+main([Target, App, Cookie]) ->
+  TargetName = list_to_atom(Target),
+  AppName = list_to_atom(App),
+  {ok, _} = net_kernel:start([?NODE_NAME, shortnames]),
+  erlang:set_cookie(node(), list_to_atom(Cookie)),
+
+  Config = rpc:call(TargetName, application, get_all_env, [AppName]),
+  io:format("Config from ~s on node ~s: ~p~n", [AppName, TargetName, Config]).
