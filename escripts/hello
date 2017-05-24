@@ -1,0 +1,8 @@
+#!/usr/bin/env escript
+
+-mod(test).
+
+-export([main/1]).
+
+main(Args) ->
+  io:format("Hello!: ~p~n", [Args]).
