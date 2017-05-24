@@ -1,0 +1,15 @@
+#!usr/bin/env escript
+
+-export([main/1]).
+-define(NODE_NAME, path).
+
+main([Target, Cookie]) ->
+  TargetName = list_to_atom(Target),
+  {ok, _} = net_kernel:start([?NODE_NAME, shortnames]),
+  erlang:set_cookie(node(), list_to_atom(Cookie)),
+
+  Path = rpc:call(TargetName, code, get_path, []),
+  % Print it
+  io:format("Path on node ~s: ~p~n", [TargetName, Path]),
+  % add it to the part of the escript
+  code:add_pathsz(Path).
