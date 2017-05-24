@@ -1,9 +1,9 @@
 #!/usr/bin/env escript
 
--define(NODE_NAME, pinger).
+-define(NODE_NAME, ping_node).
 
 main([Node, Cookie]) ->
-  {ok, _} = net_kernal:start([?NODE_NAME, shortnames]),
+  {ok, _} = net_kernel:start([?NODE_NAME, shortnames]),
   erlang:set_cookie(node(), list_to_atom(Cookie)),
 
   case net_adm:ping(list_to_atom(Node)) of
