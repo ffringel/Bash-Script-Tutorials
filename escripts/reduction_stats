@@ -1,0 +1,11 @@
+#!/usr/bin/env escript
+
+-define(NODE_NAME, reduction_stats).
+
+main([Node, Cookie]) ->
+  NodeName = list_to_atom(Node),
+  {ok, _} = net_kernel:start([?NODE_NAME, shortname]),
+  erlang:set_cookie(node(), list_to_atom(Cookie)),
+
+  {Total, _SinceLastCall} = rpc:call(NodeName, erlang, statistics, [reductions]),
+  io:format("Number of reductions on node ~s: ~p~n", [NodeName, Total]).
