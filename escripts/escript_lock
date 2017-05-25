@@ -1,0 +1,12 @@
+#!/usr/bin/env escript
+
+-export([main/1]).
+-define(NODE_NAME, escript_lock).
+
+main(_) ->
+  case net_kernel:start([?NODE_NAME, longnames]) of
+    {error, _} ->
+      error_exit("User state sync already in progress.");
+    _ ->
+      ok
+  end.
