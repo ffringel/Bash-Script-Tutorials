@@ -1,6 +1,7 @@
 #!/usr/bin/env escript
 %%! -escript main reduction_stats
 
+-export([main/1]).
 -define(NODE_NAME, reduction_stats).
 
 main([Node, Cookie]) ->
