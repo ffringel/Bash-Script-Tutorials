@@ -1,0 +1,24 @@
+#!/usr/bin/env escript
+
+-export([main/1]).
+-define(NODE_NAME, remsh).
+
+main([Node, Cookie]) ->
+  net_kernel:start([?NODE_NAME, shortnames]),
+  erlang:set_cookie(node(), list_to_atom(Cookie)),
+  Target = list_to_atom(Node),
+
+  % Traps exits so when the remote shell crashes we can exit gracefully
+  process_flag(trap_exit, true),
+
+  % Start the remote shell
+  Shell = user_drv:start(['tty_sl -c -e', {Target, shell, start, []}]),
+
+  % Link to the remote shell so we receieve the exit message
+  true = erlang:link(Shell),
+  io:format("Grabbed a remote shell on ~p~n.", [Target]),
+
+  % Return when we get the exit message
+  receive
+    {'EXIT', Shell, _} -> ok
+  end.
